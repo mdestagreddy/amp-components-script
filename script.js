@@ -12,7 +12,7 @@ function AMPComponents() {
       console.log("Successful generated AMP ⚡");
     });
     _main.addEventListener("error", function() {
-      this.remove();
+      document.head.removeChild(_main);
       isInit = false;
       var err = "Cannot generate AMP ⚡ and load script v0.js";
       console.error(err);
@@ -30,14 +30,14 @@ function AMPComponents() {
         console.log(loaded.replace("_s", "amp-" + componentName + "-" + version + ".js"));
       });
       scripts.addEventListener("error", function() {
-        this.remove();
+        document.head.removeChild(scripts);
         var err = error.replace("_s", "amp-" + componentsName + "-" + version + ".js");
         console.error(err);
         throw TypeError(err);
       });
     }
     else {
-      var errInit = "You need .init() function instead. [amp-" + componentName + "-" + version + ".js]";
+      var errInit = "You need .init() function instead";
       console.error(errInit);
       throw Error(errInit);
     }
