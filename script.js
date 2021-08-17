@@ -8,6 +8,16 @@ function AMPComponents() {
     document.head.appendChild(_main);
     _main.setAttribute("async", "");
     _main.src = "https://cdn.ampproject.org/v0.js";
+    _main.addEventListener("load", function() {
+      console.log("Successful generated AMP ⚡");
+    });
+    _main.addEventListener("error", function() {
+      this.remove();
+      isInit = false;
+      var err = "Cannot generate AMP ⚡ and load script v0.js";
+      console.error(err);
+      throw TypeError(err);
+    });
   }
   this.component = function(componentName, version) {
     if (isInit) {
@@ -27,7 +37,7 @@ function AMPComponents() {
       });
     }
     else {
-      var errInit = "Your need .init() function instead. [amp-" + componentName + "-" + version + ".js]";
+      var errInit = "You need .init() function instead. [amp-" + componentName + "-" + version + ".js]";
       console.error(errInit);
       throw Error(errInit);
     }
